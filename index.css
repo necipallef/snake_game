@@ -1,0 +1,99 @@
+h1 {
+    color: red
+}
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+}
+
+#garden-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#garden-header {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background-color: #303c54;
+}
+
+#garden-header span {
+    color: #cccccc;
+    font-size: 18px;
+}
+
+#garden {
+    display: flex;
+    flex-direction: column;
+}
+
+.garden-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.garden-cell {
+    width: 18px;
+    height: 18px;
+    background-color: #282c44;
+}
+
+.snake-cell {
+    background-color: #64ccff;
+    display: flex;
+}
+
+.snake-cell span {
+    color: red;
+    line-height: 1px;
+}
+
+.food-cell {
+    background-color: #f01c3c;
+}
+
+.snake-head-cell-container {
+    background-color: #282c44;
+}
+
+.snake-head-cell {
+    background-color: #64ccff;
+    width: 100%;
+}
+
+.snake-head-cell-right {
+    border-bottom-right-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.snake-head-cell-left {
+    border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
+.snake-head-cell-up {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.snake-head-cell-down {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+/*.snake-head-cell-right::after {*/
+/*    background-color: #282c44;*/
+/*    height: 18px;*/
+/*    width: 18px;*/
+/*    position: absolute;*/
+/*    z-index: -1;*/
+/*    content: '';*/
+/*}*/
