@@ -87,6 +87,10 @@ function setKeyboardListener() {
                 refreshJob()
             }
         } else if (e.code === 'ArrowLeft') {
+            if (snakeDirection == null) {
+                // Prevent going left in the beginning
+                return
+            }
             if (snakeDirection !== SNAKE_DIRECTION_LEFT && snakeDirection !== SNAKE_DIRECTION_RIGHT) {
                 snakeDirection = SNAKE_DIRECTION_LEFT
                 refreshJob()
@@ -102,7 +106,9 @@ function setKeyboardListener() {
 
 function refreshJob() {
     const [timeout, job] = futureJob
-    clearTimeout(timeout)
+    if (timeout != null) {
+        clearTimeout(timeout)
+    }
     job()
 }
 
@@ -169,6 +175,9 @@ function startGame(gardenElement, garden, snakeData) {
     document.getElementById('game-over-span').classList.add('hidden')
     document.getElementById('retry-button').classList.add('disabled')
     const foodData = createFoodData(garden, snakeData)
+    refreshGardenData(garden, snakeData, foodData)
+    renderGarden(gardenElement, garden)
+    addSnakeHead(gardenElement, snakeData, SNAKE_DIRECTION_RIGHT)
     runGame(gardenElement, garden, snakeData, foodData)
 }
 
@@ -276,13 +285,13 @@ function runDelayed(fn) {
     futureJob = [setTimeout(fn, 1000 / movementSpeed), fn]
 }
 
+function waitForRun(fn){
+    futureJob = [null, fn]
+}
+
 function runGame(gardenElement, garden, snakeData, foodData) {
     if (snakeDirection == null) {
-        refreshGardenData(garden, snakeData, foodData)
-        renderGarden(gardenElement, garden)
-        snakeDirection = SNAKE_DIRECTION_RIGHT
-        addSnakeHead(gardenElement, snakeData, snakeDirection)
-        runDelayed(() => runGame(gardenElement, garden, snakeData, foodData))
+        waitForRun(() => runGame(gardenElement, garden, snakeData, foodData))
         return
     }
 
