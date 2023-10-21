@@ -1,22 +1,50 @@
-h1 {
-    color: red
+.menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
 }
 
-#game-container {
+.menu span {
+    margin: 32px;
+    color: red;
+    font-size: 22px;
+}
+
+.menu button {
+    padding: 16px 32px;
+    border: 1px solid white;
+    border-radius: 30px;
+    background-color: red;
+    color: white;
+}
+
+.menu button.disabled {
+    background-color: grey;
+}
+
+.visible {
+    display: initial;
+}
+
+.hidden {
+    display: none;
+}
+
+.game-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     padding-top: 100px;
 }
 
-#garden-container {
+.garden-container {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     overflow: hidden;
 }
 
-#garden-header {
+.garden-header {
     flex: 1;
     display: flex;
     flex-direction: row;
@@ -25,12 +53,12 @@ h1 {
     background-color: #303c54;
 }
 
-#garden-header span {
+.garden-header span {
     color: #cccccc;
     font-size: 18px;
 }
 
-#garden {
+.garden {
     display: flex;
     flex-direction: column;
 }

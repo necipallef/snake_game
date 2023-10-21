@@ -3,15 +3,17 @@
     <script src="index.js"></script>
 </head>
 <body>
-<div id="game-container">
-    <div id="garden-container">
-        <div id="garden-header">
+<div class="game-container">
+    <div class="garden-container">
+        <div class="garden-header">
             <span>Score: <span id="current-score">0</span></span>
             <span>High Score: <span id="high-score">0</span></span>
         </div>
-        <div id="garden">
-
-        </div>
+        <div id="garden" class="garden"></div>
+    </div>
+    <div class="menu">
+        <span id="game-over-span">GAME OVER!</span>
+        <button id="retry-button" onclick="onRetryClick()">RETRY</button>
     </div>
 </div>>
 </body>

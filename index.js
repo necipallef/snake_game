@@ -1,5 +1,8 @@
 window.onload = onWindowLoad
 
+const GARDEN_WIDTH = 33
+const GARDEN_HEIGHT = 30
+
 const CELL_EMPTY = 'cell_empty'
 const CELL_SNAKE = 'cell_snake'
 const CELL_FOOD = 'cell_food'
@@ -17,15 +20,38 @@ let score = 0
 let highScore = 0
 
 let futureJob
+let isPlaying = false
+
+function onRetryClick() {
+    if (isPlaying) {
+        return
+    }
+
+    createNewGame()
+}
+
+function createNewGame() {
+    const gardenElement = document.getElementById('garden')
+
+    resetState()
+    const garden = createGardenData(GARDEN_WIDTH, GARDEN_HEIGHT)
+    const snake = createSnakeData()
+    startGame(gardenElement, garden, snake)
+}
+
+function resetState() {
+    movementSpeed = 10
+    snakeDirection = null
+    score = 0
+}
 
 function onWindowLoad() {
     loadHighScore()
     setKeyboardListener()
 
     const gardenElement = document.getElementById('garden')
-    const garden = createGardenData(33, 30)
-    const snake = createSnakeData()
-    startGame(gardenElement, garden, snake)
+    createGarden(gardenElement)
+    createNewGame()
 }
 
 function loadHighScore() {
@@ -93,7 +119,7 @@ function createGardenData(width, height) {
     return garden
 }
 
-function createGarden(gardenElement, garden) {
+function createGarden(gardenElement) {
     function createGardenRow() {
         const cell = document.createElement('div')
         cell.classList.add('garden-row')
@@ -106,9 +132,9 @@ function createGarden(gardenElement, garden) {
         return cell
     }
 
-    for (let rowIndex = 0; rowIndex < garden.length; rowIndex++) {
+    for (let rowIndex = 0; rowIndex < GARDEN_WIDTH; rowIndex++) {
         const row = createGardenRow()
-        for (let cellIndex = 0; cellIndex < garden[rowIndex].length; cellIndex++) {
+        for (let cellIndex = 0; cellIndex < GARDEN_HEIGHT; cellIndex++) {
             row.appendChild(createGardenCell())
         }
         gardenElement.appendChild(row)
@@ -138,7 +164,10 @@ function createFoodData(garden, snakeData) {
 }
 
 function startGame(gardenElement, garden, snakeData) {
-    createGarden(gardenElement, garden)
+    isPlaying = true
+    document.getElementById('game-over-span').classList.remove('visible')
+    document.getElementById('game-over-span').classList.add('hidden')
+    document.getElementById('retry-button').classList.add('disabled')
     const foodData = createFoodData(garden, snakeData)
     runGame(gardenElement, garden, snakeData, foodData)
 }
@@ -225,7 +254,7 @@ function removeSnakeHead(gardenElement, snakeData) {
     }
 }
 
-function addSnakeHead(gardenElement, snakeData, snakeDirection){
+function addSnakeHead(gardenElement, snakeData, snakeDirection) {
     const head = document.createElement('div')
     head.classList.add('snake-head-cell')
     if (snakeDirection === SNAKE_DIRECTION_RIGHT) {
@@ -271,7 +300,10 @@ function runGame(gardenElement, garden, snakeData, foodData) {
     })
     const hitBorder = refreshGardenData(garden, snakeData, newFoodData)
     if (hitSnake || hitBorder) {
-        alert('game over')
+        isPlaying = false
+        document.getElementById('game-over-span').classList.remove('hidden')
+        document.getElementById('game-over-span').classList.add('visible')
+        document.getElementById('retry-button').classList.remove('disabled')
         return;
     }
     addSnakeHead(gardenElement, snakeData, snakeDirection)
