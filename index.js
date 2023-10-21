@@ -21,6 +21,7 @@ let highScore = 0
 
 let futureJob
 let isPlaying = false
+let isPaused = false
 
 function onRetryClick() {
     if (isPlaying) {
@@ -43,6 +44,7 @@ function resetState() {
     movementSpeed = 10
     snakeDirection = null
     score = 0
+    isPaused = false
 }
 
 function onWindowLoad() {
@@ -77,12 +79,12 @@ function renderScore() {
 function setKeyboardListener() {
     document.addEventListener('keydown', e => {
         if (e.code === 'ArrowDown' || e.code === 'KeyS') {
-            if (snakeDirection !== SNAKE_DIRECTION_UP && snakeDirection !== SNAKE_DIRECTION_DOWN) {
+            if (!isPaused && snakeDirection !== SNAKE_DIRECTION_UP && snakeDirection !== SNAKE_DIRECTION_DOWN) {
                 snakeDirection = SNAKE_DIRECTION_DOWN
                 refreshJob()
             }
         } else if (e.code === 'ArrowUp' || e.code === 'KeyW') {
-            if (snakeDirection !== SNAKE_DIRECTION_UP && snakeDirection !== SNAKE_DIRECTION_DOWN) {
+            if (!isPaused && snakeDirection !== SNAKE_DIRECTION_UP && snakeDirection !== SNAKE_DIRECTION_DOWN) {
                 snakeDirection = SNAKE_DIRECTION_UP
                 refreshJob()
             }
@@ -91,14 +93,23 @@ function setKeyboardListener() {
                 // Prevent going left in the beginning
                 return
             }
-            if (snakeDirection !== SNAKE_DIRECTION_LEFT && snakeDirection !== SNAKE_DIRECTION_RIGHT) {
+            if (!isPaused && snakeDirection !== SNAKE_DIRECTION_LEFT && snakeDirection !== SNAKE_DIRECTION_RIGHT) {
                 snakeDirection = SNAKE_DIRECTION_LEFT
                 refreshJob()
             }
         } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
-            if (snakeDirection !== SNAKE_DIRECTION_LEFT && snakeDirection !== SNAKE_DIRECTION_RIGHT) {
+            if (!isPaused && snakeDirection !== SNAKE_DIRECTION_LEFT && snakeDirection !== SNAKE_DIRECTION_RIGHT) {
                 snakeDirection = SNAKE_DIRECTION_RIGHT
                 refreshJob()
+            }
+        } else if (e.code === 'Space') {
+            if (!isPlaying) {
+                return;
+            }
+            if (isPaused) {
+                resumeGame()
+            } else {
+                pauseGame()
             }
         }
     })
@@ -110,6 +121,25 @@ function refreshJob() {
         clearTimeout(timeout)
     }
     job()
+}
+
+function resumeGame() {
+    const [, job] = futureJob
+    runDelayed(job)
+    isPaused = false
+    document.getElementById('paused').classList.add('hidden')
+    document.getElementById('paused').classList.remove('visible')
+}
+
+function pauseGame() {
+    const [timeout, job] = futureJob
+    if (timeout != null) {
+        clearTimeout(timeout)
+    }
+    futureJob = [null, job]
+    isPaused = true
+    document.getElementById('paused').classList.add('visible')
+    document.getElementById('paused').classList.remove('hidden')
 }
 
 function createGardenData(width, height) {
@@ -173,6 +203,8 @@ function startGame(gardenElement, garden, snakeData) {
     isPlaying = true
     document.getElementById('game-over-span').classList.remove('visible')
     document.getElementById('game-over-span').classList.add('hidden')
+    document.getElementById('paused').classList.remove('visible')
+    document.getElementById('paused').classList.add('hidden')
     document.getElementById('retry-button').classList.add('disabled')
     const foodData = createFoodData(garden, snakeData)
     refreshGardenData(garden, snakeData, foodData)
@@ -285,7 +317,7 @@ function runDelayed(fn) {
     futureJob = [setTimeout(fn, 1000 / movementSpeed), fn]
 }
 
-function waitForRun(fn){
+function waitForRun(fn) {
     futureJob = [null, fn]
 }
 
