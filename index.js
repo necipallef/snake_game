@@ -337,6 +337,10 @@ function runGame(gardenElement, garden, snakeData, foodData) {
             saveNewHighScore(highScore)
             renderHighScore()
         }
+        if (snakeData.length === GARDEN_WIDTH * GARDEN_HEIGHT) {
+            alert('wow!')
+            return
+        }
         newFoodData = createFoodData(garden, snakeData)
     })
     const hitBorder = refreshGardenData(garden, snakeData, newFoodData)
