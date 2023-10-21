@@ -76,17 +76,17 @@ function renderScore() {
 
 function setKeyboardListener() {
     document.addEventListener('keydown', e => {
-        if (e.code === 'ArrowDown') {
+        if (e.code === 'ArrowDown' || e.code === 'KeyS') {
             if (snakeDirection !== SNAKE_DIRECTION_UP && snakeDirection !== SNAKE_DIRECTION_DOWN) {
                 snakeDirection = SNAKE_DIRECTION_DOWN
                 refreshJob()
             }
-        } else if (e.code === 'ArrowUp') {
+        } else if (e.code === 'ArrowUp' || e.code === 'KeyW') {
             if (snakeDirection !== SNAKE_DIRECTION_UP && snakeDirection !== SNAKE_DIRECTION_DOWN) {
                 snakeDirection = SNAKE_DIRECTION_UP
                 refreshJob()
             }
-        } else if (e.code === 'ArrowLeft') {
+        } else if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
             if (snakeDirection == null) {
                 // Prevent going left in the beginning
                 return
@@ -95,7 +95,7 @@ function setKeyboardListener() {
                 snakeDirection = SNAKE_DIRECTION_LEFT
                 refreshJob()
             }
-        } else if (e.code === 'ArrowRight') {
+        } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
             if (snakeDirection !== SNAKE_DIRECTION_LEFT && snakeDirection !== SNAKE_DIRECTION_RIGHT) {
                 snakeDirection = SNAKE_DIRECTION_RIGHT
                 refreshJob()
