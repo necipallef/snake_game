@@ -44,6 +44,7 @@ function resetState() {
     movementSpeed = 10
     snakeDirection = null
     score = 0
+    renderScore()
     isPaused = false
 }
 
@@ -342,6 +343,7 @@ function runGame(gardenElement, garden, snakeData, foodData) {
             return
         }
         newFoodData = createFoodData(garden, snakeData)
+        movementSpeed *= 1.01
     })
     const hitBorder = refreshGardenData(garden, snakeData, newFoodData)
     if (hitSnake || hitBorder) {
