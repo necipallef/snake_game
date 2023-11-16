@@ -1,4 +1,5 @@
 window.onload = onWindowLoad
+// some comment
 
 const GARDEN_WIDTH = 33
 const GARDEN_HEIGHT = 30
